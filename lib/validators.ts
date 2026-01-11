@@ -21,3 +21,15 @@ export const insertProductSchema = z.object({
   banner: z.string().nullable(),
   price: CURRENCY_SCHEMA_VALIDATOR,
 })
+
+// Schema for signing user in
+const MIN_PW_LENGTH = 6
+export const signInFormSchema = z.object({
+  email: z.email("Invalid email address"),
+  password: z
+    .string()
+    .min(
+      MIN_PW_LENGTH,
+      `Password must be at least ${MIN_PW_LENGTH} characters`
+    ),
+})
