@@ -33,3 +33,26 @@ export const signInFormSchema = z.object({
       `Password must be at least ${MIN_PW_LENGTH} characters`
     ),
 })
+
+// Schema for signing up a user
+export const signUpFormSchema = z
+  .object({
+    name: z.string().min(3, "Name must be at least 3 characters"),
+    email: z.email("Invalid email address"),
+    password: z
+      .string()
+      .min(
+        MIN_PW_LENGTH,
+        `Password must be at least ${MIN_PW_LENGTH} characters`
+      ),
+    confirmPassword: z
+      .string()
+      .min(
+        MIN_PW_LENGTH,
+        `Confirm password must be at least ${MIN_PW_LENGTH} characters`
+      ),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  })
