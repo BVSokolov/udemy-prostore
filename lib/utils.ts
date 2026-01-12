@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { ZodError } from "zod"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -14,4 +15,36 @@ export function convertToPlainObject<T>(value: T): T {
 export function formatNumberWithDecimal(num: number): string {
   const [int, decimal] = num.toString().split(".")
   return decimal ? `${int}.${decimal.padEnd(2, "0")}` : `${int}.00`
+}
+
+// Format errors
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function formatError(error: any) {
+  console.log("error name is ", error.name)
+  console.log("error is ", JSON.stringify(error))
+
+  if (error.name === "ZodError") {
+    // Handle zod error
+    const fieldErrors = JSON.parse(error.message)
+      .map(({ message }: ZodError) => message)
+      .join(". ")
+
+    return fieldErrors
+  } else if (
+    error.name === "PrismaClientKnownRequestError" &&
+    error.code === "P2002"
+  ) {
+    // Handle Prisma error
+    const field = error.meta?.target
+      ? error.meta.target[0]
+      : error.meta.driverAdapterError?.cause.constraint.fields
+      ? error.meta.driverAdapterError?.cause.constraint.fields[0]
+      : "Field"
+    return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`
+  } else {
+    // Handle other errors
+    return typeof error.message === "string"
+      ? error.message
+      : JSON.stringify(error.message)
+  }
 }
