@@ -57,7 +57,7 @@ export const signUpFormSchema = z
     path: ["confirmPassword"],
   })
 
-// Card schemas
+// Cart schemas
 export const cartItemSchema = z.object({
   productId: z.string().min(1, "Product is required"),
   name: z.string().min(1, "Name is required"),
@@ -73,6 +73,6 @@ export const insertCartSchema = z.object({
   totalPrice: CURRENCY_SCHEMA_VALIDATOR,
   shippingPrice: CURRENCY_SCHEMA_VALIDATOR,
   taxPrice: CURRENCY_SCHEMA_VALIDATOR,
-  sessionCardId: z.string().min(1, "Session card id is required"),
+  sessionCartId: z.string().min(1, "Session cart id is required"),
   userId: z.string().optional().nullable(),
 })
