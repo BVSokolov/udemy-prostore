@@ -6,7 +6,7 @@ const CURRENCY_SCHEMA_VALIDATOR = z
   .string()
   .refine(
     (value) => /^\d+(\.\d{2})?/.test(formatNumberWithDecimal(Number(value))),
-    "Price must have exactly two decimal places"
+    "Price must have exactly two decimal places",
   )
 
 // Schema for inserting products
@@ -31,7 +31,7 @@ export const signInFormSchema = z.object({
     .string()
     .min(
       MIN_PW_LENGTH,
-      `Password must be at least ${MIN_PW_LENGTH} characters`
+      `Password must be at least ${MIN_PW_LENGTH} characters`,
     ),
 })
 
@@ -44,13 +44,13 @@ export const signUpFormSchema = z
       .string()
       .min(
         MIN_PW_LENGTH,
-        `Password must be at least ${MIN_PW_LENGTH} characters`
+        `Password must be at least ${MIN_PW_LENGTH} characters`,
       ),
     confirmPassword: z
       .string()
       .min(
         MIN_PW_LENGTH,
-        `Confirm password must be at least ${MIN_PW_LENGTH} characters`
+        `Confirm password must be at least ${MIN_PW_LENGTH} characters`,
       ),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -120,4 +120,11 @@ export const insertOrderItemSchema = z.object({
   name: z.string(),
   price: CURRENCY_SCHEMA_VALIDATOR,
   qty: z.number(),
+})
+
+export const paymentResultSchema = z.object({
+  id: z.string(),
+  status: z.string(),
+  email_address: z.string(),
+  pricePaid: z.string(),
 })
