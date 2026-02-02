@@ -34,7 +34,7 @@ export const config = {
         if (user && user.password) {
           const isMatch = compareSync(
             credentials.password as string,
-            user.password
+            user.password,
           )
 
           // if password is correct, return user
@@ -113,6 +113,12 @@ export const config = {
           }
         }
       }
+
+      // Handle session updates
+      if (session?.user.name && trigger === "update") {
+        token.name = session.user.name
+      }
+
       return token
     },
     ...authConfig.callbacks,
