@@ -74,7 +74,7 @@ const ProductForm = ({
         method="POST"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col md:flex-row gap-5 ">
+        <div className="flex flex-col md:flex-row gap-5 items-start">
           {/* Name */}
           <FormField
             control={form.control}
