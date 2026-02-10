@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table"
 import Pagination from "@/components/shared/pagination"
 import DeleteDialog from "@/components/shared/delete-dialog"
+import AdminPageTitle from "@/components/admin/admin-page-title"
 
 const AdminProductsPage = async (props: {
   searchParams: Promise<{ page: string; query: string; category: string }>
@@ -29,7 +30,11 @@ const AdminProductsPage = async (props: {
   return (
     <div className="space-y-2">
       <div className="flex-between">
-        <h1 className="h2-bold">Products</h1>
+        <AdminPageTitle
+          searchText={searchText}
+          title="Products"
+          href="/admin/products"
+        />
         <Button asChild variant="default">
           <Link href="/admin/products/create">Create Product</Link>
         </Button>

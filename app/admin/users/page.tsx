@@ -14,21 +14,26 @@ import { Button } from "@/components/ui/button"
 import { formatId } from "@/lib/utils"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
+import AdminPageTitle from "@/components/admin/admin-page-title"
 
 export const metadata: Metadata = {
   title: "Admin Users",
 }
 
 const AdminUserPage = async (props: {
-  searchParams: Promise<{ page: string }>
+  searchParams: Promise<{ page: string; query: string }>
 }) => {
-  const { page = "1" } = await props.searchParams
-  const users = await getAllUsers({ page: Number(page) })
+  const { page = "1", query: searchText } = await props.searchParams
+  const users = await getAllUsers({ page: Number(page), query: searchText })
   console.log(users)
 
   return (
     <div className="space-y-2">
-      <h2 className="h2-bold">Users</h2>
+      <AdminPageTitle
+        searchText={searchText}
+        title="Users"
+        href="/admin/users"
+      />
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
