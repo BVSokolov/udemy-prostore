@@ -51,21 +51,73 @@ export async function getAllProducts({
   rating?: string
   sort?: string
 }) {
-  const queryFilter: Prisma.ProductWhereInput =
-    query && query !== "all"
-      ? {
-          name: {
-            contains: query,
-            mode: "insensitive",
-          } as Prisma.StringFilter,
-        }
-      : {}
+  const productWhereInputBuilder = (
+    filterDefaultValue: string,
+    inputValue: Prisma.ProductWhereInput,
+    filterValue?: string,
+    inputDefaultValue = {},
+  ): Prisma.ProductWhereInput =>
+    filterValue && filterValue !== filterDefaultValue
+      ? inputValue
+      : inputDefaultValue
+
+  const queryFilter: Prisma.ProductWhereInput = productWhereInputBuilder(
+    "all",
+    {
+      name: {
+        contains: query,
+        mode: "insensitive",
+      } as Prisma.StringFilter,
+    },
+    query,
+  )
+
+  const categoryFilter = productWhereInputBuilder(
+    "all",
+    {
+      category,
+    },
+    category,
+  )
+
+  const priceFilter: Prisma.ProductWhereInput = productWhereInputBuilder(
+    "all",
+    {
+      price: {
+        gte: Number(price!.split("-")[0]),
+        lte: Number(price!.split("-")[1]),
+      },
+    },
+    price,
+  )
+
+  const ratingFilter = productWhereInputBuilder(
+    "all",
+    {
+      rating: {
+        gte: Number(rating),
+      },
+    },
+    rating,
+  )
 
   const data = await prisma.product.findMany({
-    where: { ...queryFilter },
+    where: {
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+    },
     skip: (page - 1) * limit,
     take: limit,
-    orderBy: { createdAt: "desc" },
+    orderBy:
+      sort === "lowest"
+        ? { price: "asc" }
+        : sort === " highest"
+          ? { price: "desc" }
+          : sort === "rating"
+            ? { rating: "desc" }
+            : { createdAt: "desc" },
   })
 
   const dataCount = await prisma.product.count()
