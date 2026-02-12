@@ -162,7 +162,7 @@ const SearchPage = async (props: { searchParams: Promise<SearchParams> }) => {
                   {Array.from({ length: filterRating }).map((_, starIndex) => (
                     <StarIcon
                       key={starIndex}
-                      className="inline h-4 w-4 fill-amber-600"
+                      className="inline h-4 w-4 text-amber-600 fill-current"
                     />
                   ))}
                   &nbsp;+

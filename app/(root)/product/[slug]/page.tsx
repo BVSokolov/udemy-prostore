@@ -9,6 +9,7 @@ import { getProductBySlug } from "@/lib/actions/product.actions"
 import { Product } from "@/types"
 import { notFound } from "next/navigation"
 import ReviewList from "./review-list"
+import Rating from "@/components/shared/product/rating"
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: Product["slug"] }>
@@ -38,9 +39,8 @@ const ProductDetailsPage = async (props: {
                 {product.brand} {product.category}
               </p>
               <h1 className="h3-bold">{product.name}</h1>
-              <p>
-                {product.rating} out of 5 | {product.numReviews} Reviews
-              </p>
+              <Rating value={Number(product.rating)} />
+              <p>{product.numReviews} reviews</p>
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                 <ProductPrice
                   value={Number(product.price)}

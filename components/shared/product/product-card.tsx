@@ -3,11 +3,12 @@ import { Card, CardContent, CardHeader } from "../../ui/card"
 import Image from "next/image"
 import ProductPrice from "./product-price"
 import { Product } from "@/types"
+import Rating from "./rating"
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
     <Card className="w-full max-w-sm">
-      <CardHeader className="p-0 items-center">
+      <CardHeader className="p-0 items-center h-full">
         <Link href={`/product/${product.slug}`}>
           <Image
             src={product.images[0]}
@@ -21,10 +22,12 @@ const ProductCard = ({ product }: { product: Product }) => {
       <CardContent className="p-4 grid gap-4">
         <div className="text-xs">{product.brand}</div>
         <Link href={`/product/${product.slug}`}>
-          <h2 className="text-sm font-medium">{product.name}</h2>
+          <h2 className="text-sm font-medium truncate max-w-[270px]">
+            {product.name}
+          </h2>
         </Link>
         <div className="flex-between gap-4">
-          <p>{product.rating} Stars</p>
+          <Rating value={Number(product.rating)} />
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
           ) : (
