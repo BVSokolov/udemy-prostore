@@ -1,7 +1,7 @@
 import ProductCard from "@/components/shared/product/product-card"
 import { Button } from "@/components/ui/button"
 import { getAllCategories, getAllProducts } from "@/lib/actions/product.actions"
-import { Star } from "lucide-react"
+import { StarIcon } from "lucide-react"
 import Link from "next/link"
 
 const prices = () => {
@@ -143,7 +143,7 @@ const SearchPage = async (props: { searchParams: Promise<SearchParams> }) => {
 
         {/* Ratings Links */}
         <div>
-          <div className="text-xl mb-2">Customer Ratings</div>
+          <div className="text-xl mb-2">Customer Rating</div>
           <ul className="space-y-1">
             <li>
               <Link
@@ -156,11 +156,16 @@ const SearchPage = async (props: { searchParams: Promise<SearchParams> }) => {
             {RATINGS.map((filterRating) => (
               <li key={filterRating}>
                 <Link
-                  className={`${price === filterRating.toString() && "font-bold"}`}
+                  className={`${price === filterRating.toString() && "font-bold"} space-x-1`}
                   href={getFilterUrl({ rating: filterRating.toString() })}
                 >
-                  {`${filterRating} stars & more`}
-                  {/* {...[].fill(<Star key={new Date().getMilliseconds()} />, 0, filterRating)} */}
+                  {Array.from({ length: filterRating }).map((_, starIndex) => (
+                    <StarIcon
+                      key={starIndex}
+                      className="inline h-4 w-4 fill-amber-600"
+                    />
+                  ))}
+                  &nbsp;+
                 </Link>
               </li>
             ))}
