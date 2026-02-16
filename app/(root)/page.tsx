@@ -1,3 +1,4 @@
+import IconBoxes from "@/components/icon-boxes"
 import ProductCarousel from "@/components/shared/product/product-carousel"
 import ProductList from "@/components/shared/product/product-list"
 import ViewAllProductsButton from "@/components/view-all-products-button"
@@ -17,6 +18,7 @@ const Homepage = async () => {
       )}
       <ProductList data={latestProducts} title="Newest Arrivals" limit={4} />
       <ViewAllProductsButton />
+      <IconBoxes />
     </>
   )
 }
