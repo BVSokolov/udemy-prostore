@@ -3,7 +3,6 @@ import { StarHalfIcon, StarIcon } from "lucide-react"
 const MAX_RATING = 5
 
 const Rating = ({ value, caption }: { value: number; caption?: string }) => {
-  console.log(value)
   return (
     <div className="flex gap-2">
       <div className="flex gap-1">

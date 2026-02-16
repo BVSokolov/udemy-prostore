@@ -21,9 +21,6 @@ export function formatNumberWithDecimal(num: number): string {
 // Format errors
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function formatError(error: any) {
-  console.log("error name is ", error.name)
-  console.log("error is ", JSON.stringify(error))
-
   if (error.name === "ZodError") {
     // Handle zod error
     const fieldErrors = JSON.parse(error.message)
